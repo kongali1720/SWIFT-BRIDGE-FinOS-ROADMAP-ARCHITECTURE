@@ -1496,6 +1496,459 @@ This project is inspired by and built upon modern financial technology standards
 
 ---
 
+---
+
+# 📝 Commit Convention
+
+This project follows the **Conventional Commits** specification.
+
+```text
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+## Commit Types
+
+| Type | Description |
+|------|-------------|
+| **feat** | Add a new feature |
+| **fix** | Fix a bug |
+| **docs** | Documentation changes |
+| **style** | Code formatting (no logic changes) |
+| **refactor** | Code refactoring |
+| **perf** | Performance improvements |
+| **test** | Add or update tests |
+| **build** | Build system changes |
+| **ci** | CI/CD configuration |
+| **chore** | Maintenance tasks |
+| **revert** | Revert previous commit |
+
+### Example
+
+```text
+feat(payment): add ISO 20022 pacs.008 support
+
+- Implemented pacs.008 message mapper
+- Added XML validation
+- Updated payment service to handle ISO messages
+
+Closes #42
+```
+
+---
+
+# 🧪 Testing
+
+Run the complete test suite before submitting a Pull Request.
+
+```bash
+# Run all tests
+pnpm test
+
+# Run unit tests
+pnpm test:unit
+
+# Run integration tests
+pnpm test:integration
+
+# Run End-to-End tests
+pnpm test:e2e
+
+# Run performance tests
+pnpm test:performance
+
+# Generate coverage report
+pnpm test:coverage
+```
+
+---
+
+# 📚 Documentation Guidelines
+
+Please follow these documentation standards:
+
+- Use **Markdown** for all documentation.
+- Add **JSDoc** comments for all public APIs.
+- Update **README.md** when introducing user-facing features.
+- Keep architecture diagrams synchronized with implementation.
+- Provide request and response examples for every API endpoint.
+
+---
+
+# 🔒 Security
+
+If you discover a security vulnerability, please report it responsibly.
+
+- Open a **private GitHub Security Advisory**, or
+- Contact the project maintainer directly.
+
+> Please **do not disclose security vulnerabilities publicly** until they have been reviewed and resolved.
+
+---
+
+# 🤝 Code of Conduct
+
+Please read **CODE_OF_CONDUCT.md** before contributing.
+
+By participating in this project, you agree to abide by our Code of Conduct and help maintain a welcoming, inclusive, and respectful community.
+
+---
+
+# 📄 License
+
+By contributing to this project, you agree that your contributions will be licensed under the **Apache License 2.0**.
+
+---
+
+# 📜 CODE_OF_CONDUCT.md
+
+```markdown
+# Contributor Covenant Code of Conduct
+
+## Our Pledge
+
+We as members, contributors, and maintainers pledge to make participation in
+our community a harassment-free experience for everyone, regardless of age,
+body size, visible or invisible disability, ethnicity, sex characteristics,
+gender identity and expression, level of experience, education,
+socio-economic status, nationality, personal appearance, race, religion,
+or sexual identity and orientation.
+
+## Our Standards
+
+Examples of behavior that contributes to creating a positive environment include:
+
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy toward other community members
+
+Examples of unacceptable behavior include:
+
+- Sexualized language or imagery
+- Trolling, insulting, or derogatory comments
+- Personal attacks
+- Public or private harassment
+- Publishing others' private information without permission
+- Any conduct that could reasonably be considered inappropriate
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported to the project maintainers.
+
+All complaints will be reviewed and investigated promptly and fairly.
+
+## Attribution
+
+This Code of Conduct is adapted from the Contributor Covenant,
+Version 2.1.
+
+https://www.contributor-covenant.org/version/2/1/code_of_conduct/
+```
+
+---
+
+# ⚙️ GitHub Actions — `.github/workflows/ci.yml`
+
+```yaml
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "8"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type Check
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+  test:
+    runs-on: ubuntu-latest
+
+    needs: validate
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+
+        env:
+          POSTGRES_USER: swiftbridge
+          POSTGRES_PASSWORD: test123
+          POSTGRES_DB: swiftbridge_test
+
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+
+        ports:
+          - 6379:6379
+
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Database Migrations
+        run: pnpm db:migrate
+        env:
+          DATABASE_URL: postgresql://swiftbridge:test123@localhost:5432/swiftbridge_test
+
+      - name: Run Unit Tests
+        run: pnpm test
+        env:
+          DATABASE_URL: postgresql://swiftbridge:test123@localhost:5432/swiftbridge_test
+          REDIS_URL: redis://localhost:6379
+
+      - name: Run Integration Tests
+        run: pnpm test:integration
+        env:
+          DATABASE_URL: postgresql://swiftbridge:test123@localhost:5432/swiftbridge_test
+          REDIS_URL: redis://localhost:6379
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+```
+
+---
+
+# 🚀 GitHub Actions — `.github/workflows/deploy-production.yml`
+
+```yaml
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push Docker Images
+        run: |
+          pnpm docker:build --tag production
+          pnpm docker:push
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f infrastructure/kubernetes/
+          kubectl rollout status deployment -n swiftbridge --timeout=10m
+
+      - name: Smoke Tests
+        run: pnpm test:smoke
+```
+
+---
+
+# 🛠️ Makefile
+
+```makefile
+.PHONY: help install dev build test lint format clean docker-up docker-down docker-logs db-migrate db-seed deploy
+
+help:
+	@echo "Available commands:"
+	@echo " install"
+	@echo " dev"
+	@echo " build"
+	@echo " test"
+	@echo " lint"
+	@echo " format"
+	@echo " clean"
+	@echo " docker-up"
+	@echo " docker-down"
+	@echo " docker-logs"
+	@echo " db-migrate"
+	@echo " db-seed"
+	@echo " deploy"
+
+install:
+	pnpm install
+
+dev:
+	pnpm dev
+
+build:
+	pnpm build
+
+test:
+	pnpm test
+
+lint:
+	pnpm lint
+
+format:
+	pnpm format
+
+clean:
+	rm -rf node_modules dist build .next coverage
+
+docker-up:
+	docker compose up -d
+
+docker-down:
+	docker compose down
+
+docker-logs:
+	docker compose logs -f
+
+db-migrate:
+	pnpm db:migrate
+
+db-seed:
+	pnpm db:seed
+
+deploy:
+	./scripts/deploy.sh production
+```
+
+---
+
+# 🚀 GitHub Repository Setup
+
+```bash
+# Clone Repository
+git clone https://github.com/kongali1720/swift-bridge-finos.git
+
+cd swift-bridge-finos
+
+# Install Dependencies
+pnpm install
+
+# Configure Environment
+cp .env.example .env
+
+# Start Infrastructure
+docker compose up -d
+
+# Start Development
+pnpm dev
+```
+
+---
+
+# 📊 Repository Overview
+
+| Package | Description |
+|---------|-------------|
+| Foundation | Core Infrastructure |
+| Web Dashboard | Next.js Banking Console |
+| Backend Services | Banking Microservices |
+| Database | PostgreSQL, Prisma & ISO 20022 |
+| Infrastructure | Docker, Kubernetes & Terraform |
+| Documentation | Architecture & API Guides |
+
+---
+
+# 🏆 Enterprise Highlights
+
+- ✅ ISO 20022 Native Support
+- ✅ SWIFT MT Messaging
+- ✅ Double-Entry Ledger
+- ✅ Event-Driven Architecture
+- ✅ Apache Kafka
+- ✅ PostgreSQL
+- ✅ Redis
+- ✅ Docker
+- ✅ Kubernetes
+- ✅ Terraform
+- ✅ Prometheus
+- ✅ Grafana
+- ✅ OpenTelemetry
+- ✅ OpenAPI 3.1
+- ✅ OAuth2 + JWT
+- ✅ RBAC Authorization
+- ✅ Zero Trust Security
+- ✅ AI Fraud Detection Ready
+
+---
+
+**Built with ❤️ by Kong Ali for the Global Financial Technology Community.**
+
+---
+
 <div align="center">
 
 ### ⭐ If this project helps you, please consider giving it a Star on GitHub.
