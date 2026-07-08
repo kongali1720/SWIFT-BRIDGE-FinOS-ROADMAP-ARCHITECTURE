@@ -1,678 +1,1350 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
-KONGALI 1720 | SWIFT-BRIDGE FinOS Investor Proposal
-</title>
-
-
+<title>KONGALI 1720 | SWIFT-BRIDGE FinOS — Investor Proposal</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        gold: '#D4AF37',
+        'gold-light': '#F5E6A3',
+        'gold-dim': '#8B7325',
+        dark: '#060609',
+        'dark-el': '#0c0c14',
+      },
+      fontFamily: {
+        display: ['Playfair Display', 'serif'],
+        body: ['DM Sans', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
 <style>
-
-html {
-scroll-behavior:smooth;
+:root {
+  --gold: #D4AF37;
+  --gold-light: #F5E6A3;
+  --gold-dim: #8B7325;
+  --bg: #060609;
+  --card: rgba(255,255,255,0.03);
+  --card-border: rgba(212,175,55,0.1);
 }
 
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-
-background:
-linear-gradient(
-rgba(2,6,23,0.90),
-rgba(2,6,23,0.96)
-),
-url("https://github.com/kongali1720/kongali1720.github.io/blob/main/new-logo.png?raw=true");
-
-
-background-size:cover;
-
-background-position:center;
-
-background-attachment:fixed;
-
-font-family:
-Inter,
-Segoe UI,
-Arial,
-sans-serif;
-
-color:white;
-
+  background: var(--bg);
+  color: #E8E6E0;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
 
+/* Particle canvas */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
 
+/* Glass card */
 .glass {
-
-background:
-rgba(255,255,255,0.08);
-
-border:
-1px solid rgba(255,255,255,0.15);
-
-backdrop-filter:
-blur(18px);
-
-box-shadow:
-0 20px 50px rgba(0,0,0,.4);
-
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.glass:hover {
+  border-color: rgba(212,175,55,0.3);
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(212,175,55,0.06);
 }
 
-
-
-.gold {
-
-color:#FFD700;
-
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5E6A3 40%, #D4AF37 70%, #8B7325 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
 
-.gradient {
+/* Hero animations */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroPulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(212,175,55,0.2), 0 0 60px rgba(212,175,55,0.05); }
+  50% { box-shadow: 0 0 40px rgba(212,175,55,0.35), 0 0 80px rgba(212,175,55,0.1); }
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.hero-anim-1 { animation: heroFadeUp 1s ease 0.2s both; }
+.hero-anim-2 { animation: heroFadeUp 1s ease 0.5s both; }
+.hero-anim-3 { animation: heroFadeUp 1s ease 0.8s both; }
+.hero-anim-4 { animation: heroFadeUp 1s ease 1.1s both; }
+.hero-anim-5 { animation: heroFadeUp 1s ease 1.4s both; }
+.logo-pulse { animation: heroPulse 3s ease-in-out infinite; }
+.scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; }
 
-background:
-linear-gradient(
-90deg,
-#FFD700,
-#fff3a3
-);
+/* CTA glow */
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.15), inset 0 0 20px rgba(212,175,55,0.03); }
+  50% { box-shadow: 0 0 40px rgba(212,175,55,0.25), inset 0 0 30px rgba(212,175,55,0.06); }
+}
+.cta-glow { animation: ctaGlow 3s ease-in-out infinite; }
 
--webkit-background-clip:text;
-
-color:transparent;
-
+/* Tag pill */
+.tag {
+  padding: 5px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(212,175,55,0.25);
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  background: rgba(212,175,55,0.06);
+  white-space: nowrap;
 }
 
+/* Architecture layer */
+.arch-line {
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), rgba(212,175,55,0.1), transparent);
+}
+.arch-dot {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(212,175,55,0.5);
+}
 
+/* Timeline */
+.timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), rgba(212,175,55,0.15), transparent);
+}
+.timeline-dot {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--gold);
+  z-index: 2;
+}
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+}
 
+/* Loading screen */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.loader-ring {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(212,175,55,0.15);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9000;
+  padding: 16px 28px;
+  border-radius: 12px;
+  background: rgba(12,12,20,0.95);
+  border: 1px solid rgba(212,175,55,0.3);
+  backdrop-filter: blur(20px);
+  color: var(--gold-light);
+  font-size: 0.95rem;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.toast.show { transform: translateX(0); }
+
+/* Nav active */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
+
+/* Mobile menu */
+#mobileMenu {
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+#mobileMenu.open { transform: translateX(0); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
-
-
 </head>
-
-
 
 <body>
 
+<!-- Loading Screen -->
+<div id="loader">
+  <div class="loader-ring"></div>
+</div>
 
+<!-- Scroll Progress Bar -->
+<div id="progressBar" class="fixed top-0 left-0 h-[2px] z-[100]" style="width:0%;background:linear-gradient(90deg,#8B7325,#D4AF37,#F5E6A3)"></div>
+
+<!-- Particle Canvas -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- Navigation -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background:transparent">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3 group">
+      <img src="https://github.com/kongali1720/kongali1720.github.io/blob/main/new-logo.png?raw=true" alt="KONGALI 1720" class="w-9 h-9 rounded-full">
+      <span class="font-display font-bold text-gold tracking-wide text-sm">KONGALI 1720</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+      <a href="#opportunity" class="nav-link hover:text-white transition-colors">Opportunity</a>
+      <a href="#platform" class="nav-link hover:text-white transition-colors">Platform</a>
+      <a href="#architecture" class="nav-link hover:text-white transition-colors">Architecture</a>
+      <a href="#financials" class="nav-link hover:text-white transition-colors">Financials</a>
+      <a href="#investment" class="nav-link hover:text-white transition-colors">Investment</a>
+      <a href="#roadmap" class="nav-link hover:text-white transition-colors">Roadmap</a>
+      <a href="#contact" class="ml-2 px-5 py-2 rounded-lg bg-gold text-dark font-semibold hover:bg-gold-light transition-colors">Contact</a>
+    </div>
+    <button id="menuBtn" class="md:hidden text-gold text-xl" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="fixed inset-0 z-[60] bg-dark/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8 text-lg font-medium">
+  <button id="closeMenu" class="absolute top-5 right-6 text-gold text-2xl" aria-label="Close menu"><i class="fas fa-times"></i></button>
+  <a href="#opportunity" class="mobile-link text-gray-300 hover:text-gold transition-colors">Opportunity</a>
+  <a href="#platform" class="mobile-link text-gray-300 hover:text-gold transition-colors">Platform</a>
+  <a href="#architecture" class="mobile-link text-gray-300 hover:text-gold transition-colors">Architecture</a>
+  <a href="#financials" class="mobile-link text-gray-300 hover:text-gold transition-colors">Financials</a>
+  <a href="#investment" class="mobile-link text-gray-300 hover:text-gold transition-colors">Investment</a>
+  <a href="#roadmap" class="mobile-link text-gray-300 hover:text-gold transition-colors">Roadmap</a>
+  <a href="#contact" class="mt-4 px-8 py-3 rounded-lg bg-gold text-dark font-semibold">Contact Us</a>
+</div>
 
 <!-- HERO -->
-
-<section class="min-h-screen flex items-center justify-center px-6">
-
-
-<div class="max-w-6xl text-center">
-
-
-<img
-
-src="https://github.com/kongali1720/kongali1720.github.io/blob/main/new-logo.png?raw=true"
-
-class="mx-auto w-52 mb-10 rounded-full shadow-2xl">
-
-
-<h1 class="text-5xl md:text-7xl font-black">
-
-🏦 SWIFT-BRIDGE FinOS
-
-</h1>
-
-
-<h2 class="text-3xl md:text-5xl mt-6 font-bold gradient">
-
-National Financial Infrastructure Platform
-
-</h2>
-
-
-
-<p class="mt-8 text-xl text-gray-300 max-w-4xl mx-auto">
-
-Investment Proposal for Building Enterprise Banking Infrastructure,
-ISO 20022 Payment Network,
-SWIFT Integration Platform,
-Digital Settlement Engine,
-and Next Generation Financial Technology Ecosystem.
-
-</p>
-
-
-
-<div class="mt-12">
-
-
-<a href="#investment"
-
-class="bg-yellow-400 text-black px-10 py-5 rounded-2xl font-bold text-lg hover:bg-yellow-300">
-
-INVESTMENT OPPORTUNITY
-
-</a>
-
-
-</div>
-
-
-</div>
-
-
+<section class="relative min-h-screen flex items-center justify-center px-6 z-10">
+  <div class="max-w-5xl text-center">
+    <img src="https://github.com/kongali1720/kongali1720.github.io/blob/main/new-logo.png?raw=true"
+         alt="KONGALI 1720 Logo"
+         class="mx-auto w-28 md:w-36 rounded-full logo-pulse hero-anim-1">
+    <h1 class="mt-10 font-display font-black text-5xl md:text-7xl lg:text-8xl tracking-tight hero-anim-2">
+      <span class="text-gold-gradient">SWIFT-BRIDGE</span>
+    </h1>
+    <h2 class="mt-3 font-display text-2xl md:text-4xl font-bold text-white/90 hero-anim-3">FinOS</h2>
+    <p class="mt-3 text-gold-dim text-sm md:text-base tracking-[0.3em] uppercase font-medium hero-anim-3">National Financial Infrastructure Platform</p>
+    <p class="mt-8 text-base md:text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed hero-anim-4">
+      Investment proposal for building enterprise-grade banking infrastructure — ISO 20022 payment network, SWIFT integration, real-time settlement engine, and next-generation financial technology ecosystem.
+    </p>
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 hero-anim-5">
+      <a href="#investment" class="px-10 py-4 rounded-xl bg-gold text-dark font-bold text-base hover:bg-gold-light transition-all hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]">
+        View Investment Opportunity
+      </a>
+      <a href="#opportunity" class="px-10 py-4 rounded-xl border border-gold/30 text-gold font-semibold text-base hover:bg-gold/10 transition-all">
+        Explore Proposal
+      </a>
+    </div>
+    <div class="mt-20 scroll-indicator text-gold/60">
+      <i class="fas fa-chevron-down text-lg"></i>
+    </div>
+  </div>
 </section>
 
-
-
-
-
-<!-- EXECUTIVE SUMMARY -->
-
-
-<section class="py-20 px-6">
-
-
-<div class="max-w-6xl mx-auto glass rounded-3xl p-10">
-
-
-<h2 class="text-4xl font-bold gold">
-
-Executive Summary
-
-</h2>
-
-
-
-<p class="mt-6 text-lg text-gray-200 leading-relaxed">
-
-
-KONGALI 1720 proposes the development of
-SWIFT-BRIDGE FinOS, an enterprise financial
-infrastructure platform designed to support
-modern banking operations through
-microservices architecture, ISO 20022 messaging,
-real-time settlement, and advanced cybersecurity.
-
-
-</p>
-
-
-
-</div>
-
-
+<!-- KEY METRICS -->
+<section class="relative z-10 py-16 px-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+    <div class="glass rounded-2xl p-6 text-center reveal">
+      <div class="text-3xl md:text-4xl font-black text-gold-gradient counter" data-target="847" data-suffix="T">0</div>
+      <p class="mt-2 text-xs md:text-sm text-gray-500">Digital Payment Market (Rp)</p>
+    </div>
+    <div class="glass rounded-2xl p-6 text-center reveal reveal-delay-1">
+      <div class="text-3xl md:text-4xl font-black text-gold-gradient counter" data-target="120" data-suffix="M+">0</div>
+      <p class="mt-2 text-xs md:text-sm text-gray-500">Active Digital Banking Users</p>
+    </div>
+    <div class="glass rounded-2xl p-6 text-center reveal reveal-delay-2">
+      <div class="text-3xl md:text-4xl font-black text-gold-gradient counter" data-target="23.5" data-suffix="%" data-decimal="true">0</div>
+      <p class="mt-2 text-xs md:text-sm text-gray-500">Fintech CAGR Growth</p>
+    </div>
+    <div class="glass rounded-2xl p-6 text-center reveal reveal-delay-3">
+      <div class="text-3xl md:text-4xl font-black text-gold-gradient counter" data-target="5" data-suffix="+">0</div>
+      <p class="mt-2 text-xs md:text-sm text-gray-500">Target Bank Partners</p>
+    </div>
+  </div>
 </section>
 
-
-
-
-
-<!-- VISION -->
-
-
-<section class="py-20 px-6">
-
-
-<div class="max-w-6xl mx-auto">
-
-
-<h2 class="text-5xl text-center font-bold gradient">
-
-Strategic Vision
-
-</h2>
-
-
-
-<div class="grid md:grid-cols-3 gap-8 mt-12">
-
-
-<div class="glass rounded-3xl p-8">
-
-<h3 class="text-2xl font-bold">
-
-🌍 Global Connectivity
-
-</h3>
-
-
-<p class="mt-4">
-
-SWIFT messaging,
-ISO 20022,
-cross-border payment,
-financial interoperability.
-
-</p>
-
-
-</div>
-
-
-
-<div class="glass rounded-3xl p-8">
-
-
-<h3 class="text-2xl font-bold">
-
-🏦 Core Banking
-
-</h3>
-
-
-<p class="mt-4">
-
-Digital ledger,
-transaction engine,
-account management,
-settlement infrastructure.
-
-</p>
-
-
-</div>
-
-
-
-<div class="glass rounded-3xl p-8">
-
-
-<h3 class="text-2xl font-bold">
-
-🤖 Intelligent Finance
-
-</h3>
-
-
-<p class="mt-4">
-
-AI fraud detection,
-risk analytics,
-automation,
-financial intelligence.
-
-</p>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
+<!-- THE OPPORTUNITY -->
+<section id="opportunity" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Market Opportunity</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Why Now, Why Indonesia</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="space-y-6">
+        <div class="glass rounded-2xl p-7 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 mt-1">
+              <i class="fas fa-clock text-gold"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white mb-2">ISO 20022 Migration Deadline</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Bank Indonesia mandates ISO 20022 adoption for all payment systems. Banks without compliant infrastructure face regulatory penalties and operational exclusion from national payment networks.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-7 reveal reveal-delay-1">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 mt-1">
+              <i class="fas fa-network-wired text-gold"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white mb-2">SWIFT CSP Compliance Pressure</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">SWIFT's Customer Security Programme requires continuous compliance. Legacy systems struggle to meet evolving cybersecurity standards, creating urgent demand for modern platforms.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-7 reveal reveal-delay-2">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 mt-1">
+              <i class="fas fa-chart-line text-gold"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white mb-2">Explosive Transaction Volume</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Indonesia's digital payment transactions surpassed Rp 847 trillion in 2024. Current infrastructure bottlenecks create latency, failures, and revenue loss for financial institutions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div class="glass rounded-2xl p-7 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 mt-1">
+              <i class="fas fa-server text-gold"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white mb-2">Legacy Infrastructure Crisis</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Most Indonesian banks operate on monolithic core banking systems built 15-20 years ago. These systems cannot scale, integrate modern protocols, or support real-time operations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-7 reveal reveal-delay-1">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 mt-1">
+              <i class="fas fa-shield-halved text-gold"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white mb-2">Escalating Cyber Threats</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">Financial sector cyberattacks increased 38% year-over-year. Banks need zero-trust architecture, real-time fraud detection, and SOC-grade monitoring — absent in legacy stacks.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-7 reveal reveal-delay-2">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 mt-1">
+              <i class="fas fa-globe-asia text-gold"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white mb-2">Cross-Border Growth Corridor</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">ASEAN economic integration demands seamless cross-border payment infrastructure. Banks with modern SWIFT connectivity gain first-mover advantage in regional trade finance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-
-
-
-
-
-
-<!-- ARCHITECTURE -->
-
-
-<section class="py-20 px-6">
-
-
-<div class="max-w-6xl mx-auto glass rounded-3xl p-10">
-
-
-<h2 class="text-4xl font-bold gold">
-
-Enterprise Architecture
-
-</h2>
-
-
-
-<pre class="mt-8 text-green-400 text-lg">
-
-
-Users
-
-   |
-   |
-API Gateway
-
-   |
-----------------------------
-|        |        |        |
-Auth   Payment  Ledger  Compliance
-
-   |
-Kafka Event Streaming
-
-   |
-
-ISO 20022 Engine
-
-   |
-
-SWIFT MT Gateway
-
-   |
-
-Core Banking Ledger
-
-   |
-
-PostgreSQL Cluster
-
-
-</pre>
-
-
-</div>
-
-
+<!-- PLATFORM CAPABILITIES -->
+<section id="platform" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">The Solution</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">SWIFT-BRIDGE FinOS Platform</h2>
+      <p class="mt-5 text-gray-400 max-w-2xl mx-auto">Enterprise financial operating system designed from the ground up for Indonesian banking requirements, global SWIFT standards, and next-generation payment processing.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="glass rounded-2xl p-7 reveal">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-5">
+          <i class="fas fa-exchange-alt text-gold text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">ISO 20022 Engine</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Full ISO 20022 message parsing, validation, translation, and routing. Supports pain.001, pacs.008, camt.053, and 200+ message types for complete payment lifecycle management.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 reveal reveal-delay-1">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-5">
+          <i class="fas fa-satellite-dish text-gold text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">SWIFT MT/MX Gateway</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Dual-protocol SWIFT connectivity supporting legacy MT messages and next-generation MX format. Automated message translation, BIC validation, and end-to-end tracking.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 reveal reveal-delay-2">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-5">
+          <i class="fas fa-bolt text-gold text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Real-Time Settlement</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Sub-second settlement engine with atomic transaction processing, automated reconciliation, and support for BI-FAST, RTGS, and SKNBI payment channels.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 reveal reveal-delay-3">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-5">
+          <i class="fas fa-brain text-gold text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">AI Fraud Detection</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Machine learning models trained on Indonesian transaction patterns. Real-time anomaly scoring, behavioral biometrics, and automated alert escalation to compliance teams.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 reveal reveal-delay-4">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-5">
+          <i class="fas fa-cubes text-gold text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Microservices Core</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Cloud-native architecture with independent service deployment, horizontal auto-scaling, circuit breaker patterns, and 99.99% uptime SLA for mission-critical banking operations.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 reveal reveal-delay-5">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-5">
+          <i class="fas fa-lock text-gold text-xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Zero-Trust Security</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">HSM-encrypted key management, mutual TLS everywhere, RBAC with attribute-based policies, continuous authentication, and full audit trail for regulatory compliance.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- ENTERPRISE ARCHITECTURE -->
+<section id="architecture" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Technical Design</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Enterprise Architecture</h2>
+    </div>
+    <div class="relative pl-10 reveal">
+      <div class="arch-line"></div>
 
+      <!-- Layer 1 -->
+      <div class="relative mb-5">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">Client Access Layer</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">Mobile Banking SDK</span>
+            <span class="tag">Web Portal</span>
+            <span class="tag">REST API Gateway</span>
+            <span class="tag">Partner Integration Hub</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Layer 2 -->
+      <div class="relative mb-5">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">API Gateway & Security Perimeter</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">Load Balancer</span>
+            <span class="tag">Rate Limiting</span>
+            <span class="tag">WAF</span>
+            <span class="tag">mTLS Termination</span>
+            <span class="tag">OAuth 2.0 / OIDC</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Layer 3 -->
+      <div class="relative mb-5">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">Core Microservices</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">Authentication Service</span>
+            <span class="tag">Payment Engine</span>
+            <span class="tag">Ledger Service</span>
+            <span class="tag">Compliance Engine</span>
+            <span class="tag">Notification Service</span>
+            <span class="tag">Analytics Pipeline</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Layer 4 -->
+      <div class="relative mb-5">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">Event Streaming Infrastructure</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">Apache Kafka</span>
+            <span class="tag">Event Sourcing</span>
+            <span class="tag">CQRS Pattern</span>
+            <span class="tag">Dead Letter Queue</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Layer 5 -->
+      <div class="relative mb-5">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">Protocol & Messaging Engines</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">ISO 20022 Processor</span>
+            <span class="tag">SWIFT MT/MX Translator</span>
+            <span class="tag">BI-FAST Adapter</span>
+            <span class="tag">RTGS Interface</span>
+            <span class="tag">SKNBI Handler</span>
+          </div>
+        </div>
+      </div>
 
-<!-- INFRASTRUCTURE -->
+      <!-- Layer 6 -->
+      <div class="relative mb-5">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">Core Banking Ledger</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">Distributed Ledger</span>
+            <span class="tag">Transaction Manager</span>
+            <span class="tag">Auto-Reconciliation</span>
+            <span class="tag">Balance Engine</span>
+          </div>
+        </div>
+      </div>
 
-
-<section class="py-20 px-6">
-
-
-<div class="max-w-6xl mx-auto">
-
-
-<h2 class="text-5xl text-center gradient font-bold">
-
-Infrastructure Investment
-
-</h2>
-
-
-
-<div class="grid md:grid-cols-2 gap-8 mt-12">
-
-
-<div class="glass p-8 rounded-3xl">
-
-<h3 class="text-3xl">
-
-🖥 Data Center
-
-</h3>
-
-<ul class="mt-5 space-y-3">
-
-<li>✔ Enterprise Server Cluster</li>
-
-<li>✔ High Availability Storage</li>
-
-<li>✔ Disaster Recovery Site</li>
-
-<li>✔ Backup Infrastructure</li>
-
-</ul>
-
-
-</div>
-
-
-
-
-<div class="glass p-8 rounded-3xl">
-
-<h3 class="text-3xl">
-
-🔐 Cyber Security
-
-</h3>
-
-
-<ul class="mt-5 space-y-3">
-
-<li>✔ SOC 24/7</li>
-
-<li>✔ SIEM Platform</li>
-
-<li>✔ HSM Security</li>
-
-<li>✔ Zero Trust Architecture</li>
-
-</ul>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
+      <!-- Layer 7 -->
+      <div class="relative">
+        <div class="arch-dot"></div>
+        <div class="glass rounded-xl p-5 ml-6">
+          <h4 class="text-gold font-semibold text-sm tracking-wider uppercase mb-3">Data & Storage Layer</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag">PostgreSQL Cluster</span>
+            <span class="tag">Redis Cache</span>
+            <span class="tag">S3 Object Storage</span>
+            <span class="tag">Elasticsearch</span>
+            <span class="tag">Data Warehouse</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-
-
-
-
-
-
-<!-- INVESTMENT -->
-
-
-<section id="investment"
-
-class="py-20 px-6">
-
-
-<div class="max-w-5xl mx-auto glass rounded-3xl p-12 text-center">
-
-
-<h2 class="text-5xl font-bold gold">
-
-Capital Requirement
-
-</h2>
-
-
-
-<p class="mt-8 text-xl">
-
-Estimated Infrastructure Investment
-
-</p>
-
-
-
-<div class="text-7xl font-black gradient mt-6">
-
-Rp 1 - 3 Trillion
-
-</div>
-
-
-
-<p class="mt-8 text-gray-300 text-lg">
-
-Funding allocation:
-
-</p>
-
-
-<div class="grid md:grid-cols-3 gap-6 mt-10">
-
-
-<div>
-
-<h3 class="text-3xl">
-
-40%
-
-</h3>
-
-<p>
-
-Infrastructure
-
-</p>
-
-</div>
-
-
-<div>
-
-<h3 class="text-3xl">
-
-30%
-
-</h3>
-
-<p>
-
-Technology Development
-
-</p>
-
-</div>
-
-
-<div>
-
-<h3 class="text-3xl">
-
-30%
-
-</h3>
-
-<p>
-
-Security & Operation
-
-</p>
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
+<!-- SECURITY & COMPLIANCE -->
+<section class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Trust & Compliance</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Banking-Grade Security</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div class="glass rounded-2xl p-6 text-center reveal">
+        <div class="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-shield-halved text-gold text-2xl"></i>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">SOC 24/7</h4>
+        <p class="text-gray-500 text-xs">Security Operations Center with continuous monitoring</p>
+      </div>
+      <div class="glass rounded-2xl p-6 text-center reveal reveal-delay-1">
+        <div class="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-fingerprint text-gold text-2xl"></i>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">HSM Encryption</h4>
+        <p class="text-gray-500 text-xs">Hardware Security Module for key management</p>
+      </div>
+      <div class="glass rounded-2xl p-6 text-center reveal reveal-delay-2">
+        <div class="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-file-shield text-gold text-2xl"></i>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">OJK Compliant</h4>
+        <p class="text-gray-500 text-xs">Full regulatory compliance with Indonesian financial authority</p>
+      </div>
+      <div class="glass rounded-2xl p-6 text-center reveal reveal-delay-3">
+        <div class="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-user-shield text-gold text-2xl"></i>
+        </div>
+        <h4 class="font-bold text-white text-sm mb-1">Zero Trust</h4>
+        <p class="text-gray-500 text-xs">Never trust, always verify architecture model</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- REVENUE MODEL -->
+<section class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Business Model</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Revenue Streams</h2>
+    </div>
+    <div class="grid md:grid-cols-5 gap-4 md:gap-5">
+      <div class="glass rounded-2xl p-6 reveal">
+        <i class="fas fa-file-contract text-gold text-2xl mb-4"></i>
+        <h4 class="font-bold text-white text-sm mb-2">Platform License</h4>
+        <p class="text-gray-500 text-xs leading-relaxed">Annual enterprise license per bank client with tiered pricing based on transaction volume</p>
+      </div>
+      <div class="glass rounded-2xl p-6 reveal reveal-delay-1">
+        <i class="fas fa-receipt text-gold text-2xl mb-4"></i>
+        <h4 class="font-bold text-white text-sm mb-2">Transaction Fee</h4>
+        <p class="text-gray-500 text-xs leading-relaxed">Per-transaction processing fee for payment routing, settlement, and messaging services</p>
+      </div>
+      <div class="glass rounded-2xl p-6 reveal reveal-delay-2">
+        <i class="fas fa-puzzle-piece text-gold text-2xl mb-4"></i>
+        <h4 class="font-bold text-white text-sm mb-2">Integration Fee</h4>
+        <p class="text-gray-500 text-xs leading-relaxed">One-time onboarding and system integration fee for each new bank client deployment</p>
+      </div>
+      <div class="glass rounded-2xl p-6 reveal reveal-delay-3">
+        <i class="fas fa-headset text-gold text-2xl mb-4"></i>
+        <h4 class="font-bold text-white text-sm mb-2">Premium Support</h4>
+        <p class="text-gray-500 text-xs leading-relaxed">24/7 dedicated support tier with SLA guarantees and incident response</p>
+      </div>
+      <div class="glass rounded-2xl p-6 reveal reveal-delay-4">
+        <i class="fas fa-store text-gold text-2xl mb-4"></i>
+        <h4 class="font-bold text-white text-sm mb-2">API Marketplace</h4>
+        <p class="text-gray-500 text-xs leading-relaxed">Revenue share from third-party fintech integrations and value-added services</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- FINANCIAL PROJECTIONS -->
+<section id="financials" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Financial Outlook</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Revenue Projection</h2>
+      <p class="mt-4 text-gray-400">Projected revenue growth 2026 — 2032 (Billion IDR)</p>
+    </div>
+    <div class="glass rounded-2xl p-6 md:p-8 reveal">
+      <canvas id="revenueChart" class="w-full" style="height:340px"></canvas>
+    </div>
+  </div>
+</section>
 
-
-
-
+<!-- INVESTMENT DETAILS -->
+<section id="investment" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Capital Requirement</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Investment Structure</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 items-start">
+      <!-- Donut Chart -->
+      <div class="glass rounded-2xl p-8 flex flex-col items-center reveal">
+        <canvas id="donutChart" width="280" height="280" class="mb-6"></canvas>
+        <div class="text-center">
+          <p class="text-gray-400 text-sm">Total Capital Required</p>
+          <p class="text-4xl font-black text-gold-gradient mt-1">Rp 1 — 3T</p>
+        </div>
+      </div>
+      <!-- Breakdown -->
+      <div class="space-y-4 reveal reveal-delay-2">
+        <div class="glass rounded-xl p-5 flex items-center gap-4">
+          <div class="w-4 h-4 rounded-sm shrink-0" style="background:#D4AF37"></div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white text-sm">Infrastructure & Data Center</h4>
+            <p class="text-gray-500 text-xs mt-1">Server cluster, storage, network, disaster recovery, backup systems</p>
+          </div>
+          <span class="text-gold font-bold text-lg">35%</span>
+        </div>
+        <div class="glass rounded-xl p-5 flex items-center gap-4">
+          <div class="w-4 h-4 rounded-sm shrink-0" style="background:#C9A84C"></div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white text-sm">Technology Development</h4>
+            <p class="text-gray-500 text-xs mt-1">Core platform engineering, ISO 20022 engine, SWIFT integration, testing</p>
+          </div>
+          <span class="text-gold font-bold text-lg">25%</span>
+        </div>
+        <div class="glass rounded-xl p-5 flex items-center gap-4">
+          <div class="w-4 h-4 rounded-sm shrink-0" style="background:#8B7325"></div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white text-sm">Security & Compliance</h4>
+            <p class="text-gray-500 text-xs mt-1">SOC setup, HSM procurement, certifications, audit infrastructure, pen testing</p>
+          </div>
+          <span class="text-gold font-bold text-lg">20%</span>
+        </div>
+        <div class="glass rounded-xl p-5 flex items-center gap-4">
+          <div class="w-4 h-4 rounded-sm shrink-0" style="background:#A08930"></div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white text-sm">Operations & Team</h4>
+            <p class="text-gray-500 text-xs mt-1">Engineering team, DevOps, operations staff, training, recruitment</p>
+          </div>
+          <span class="text-gold font-bold text-lg">15%</span>
+        </div>
+        <div class="glass rounded-xl p-5 flex items-center gap-4">
+          <div class="w-4 h-4 rounded-sm shrink-0" style="background:#6B5A1E"></div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white text-sm">Working Capital</h4>
+            <p class="text-gray-500 text-xs mt-1">Operational runway, contingency fund, regulatory reserves</p>
+          </div>
+          <span class="text-gold font-bold text-lg">5%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ROADMAP -->
+<section id="roadmap" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-3">Execution Plan</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-gold-gradient">Roadmap 2026 — 2032</h2>
+    </div>
+    <div class="relative pl-12">
+      <div class="timeline-line"></div>
 
+      <div class="relative mb-12 reveal">
+        <div class="timeline-dot"></div>
+        <div class="glass rounded-xl p-6">
+          <span class="text-gold font-bold text-sm tracking-wider">2026 H1 — H2</span>
+          <h4 class="text-white font-bold text-lg mt-2">Foundation & Prototype</h4>
+          <p class="text-gray-400 text-sm mt-2 leading-relaxed">Core architecture design, microservices framework, ISO 20022 message parser prototype, SWIFT sandbox integration, initial security framework, and team assembly of 15-20 engineers.</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tag">Architecture</span>
+            <span class="tag">Prototype</span>
+            <span class="tag">Team Building</span>
+          </div>
+        </div>
+      </div>
 
-<section class="py-20 px-6">
+      <div class="relative mb-12 reveal reveal-delay-1">
+        <div class="timeline-dot"></div>
+        <div class="glass rounded-xl p-6">
+          <span class="text-gold font-bold text-sm tracking-wider">2027</span>
+          <h4 class="text-white font-bold text-lg mt-2">Enterprise Launch & First Client</h4>
+          <p class="text-gray-400 text-sm mt-2 leading-relaxed">Production deployment, security certification (SOC 2, OJK compliance), first bank client onboarding, BI-FAST channel integration, and performance benchmarking at 10,000 TPS.</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tag">Production</span>
+            <span class="tag">Certification</span>
+            <span class="tag">First Client</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="relative mb-12 reveal reveal-delay-2">
+        <div class="timeline-dot"></div>
+        <div class="glass rounded-xl p-6">
+          <span class="text-gold font-bold text-sm tracking-wider">2028 — 2029</span>
+          <h4 class="text-white font-bold text-lg mt-2">Scale & Regional Expansion</h4>
+          <p class="text-gray-400 text-sm mt-2 leading-relaxed">Onboard 3-5 bank clients, full SWIFT MT/MX dual-protocol support, cross-border payment corridor with ASEAN partners, AI fraud detection deployment, and API marketplace launch.</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tag">Multi-Client</span>
+            <span class="tag">Cross-Border</span>
+            <span class="tag">AI Launch</span>
+          </div>
+        </div>
+      </div>
 
-<div class="max-w-6xl mx-auto">
+      <div class="relative mb-12 reveal reveal-delay-3">
+        <div class="timeline-dot"></div>
+        <div class="glass rounded-xl p-6">
+          <span class="text-gold font-bold text-sm tracking-wider">2030</span>
+          <h4 class="text-white font-bold text-lg mt-2">Market Leadership & Profitability</h4>
+          <p class="text-gray-400 text-sm mt-2 leading-relaxed">10+ bank clients, revenue profitability, secondary data center activation, full disaster recovery capability, and recognized as Indonesia's leading financial infrastructure platform.</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tag">10+ Clients</span>
+            <span class="tag">Profitable</span>
+            <span class="tag">Market Leader</span>
+          </div>
+        </div>
+      </div>
 
-
-<h2 class="text-5xl gradient font-bold text-center">
-
-Roadmap 2026 - 2030
-
-</h2>
-
-
-
-<div class="mt-12 space-y-6">
-
-
-<div class="glass p-6 rounded-xl">
-
-2026 — Architecture Development & Prototype
-
-</div>
-
-
-<div class="glass p-6 rounded-xl">
-
-2027 — Enterprise Banking Infrastructure
-
-</div>
-
-
-<div class="glass p-6 rounded-xl">
-
-2028 — Regional Financial Network Expansion
-
-</div>
-
-
-<div class="glass p-6 rounded-xl">
-
-2030 — Global Financial Infrastructure Ecosystem
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
+      <div class="relative reveal reveal-delay-4">
+        <div class="timeline-dot"></div>
+        <div class="glass rounded-xl p-6">
+          <span class="text-gold font-bold text-sm tracking-wider">2031 — 2032</span>
+          <h4 class="text-white font-bold text-lg mt-2">Global Financial Hub</h4>
+          <p class="text-gray-400 text-sm mt-2 leading-relaxed">Regional hub status, 20+ institutional clients, international SWIFT network expansion, strategic partnerships with global fintech, and potential IPO or strategic acquisition readiness.</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tag">Regional Hub</span>
+            <span class="tag">20+ Clients</span>
+            <span class="tag">IPO Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-
-
-
-
+<!-- CTA / CONTACT -->
+<section id="contact" class="relative z-10 py-20 md:py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="glass rounded-3xl p-10 md:p-16 text-center cta-glow reveal" style="border-color:rgba(212,175,55,0.2)">
+      <p class="text-gold text-sm tracking-[0.25em] uppercase font-semibold mb-4">Next Steps</p>
+      <h2 class="font-display text-3xl md:text-5xl font-bold text-gold-gradient leading-tight">
+        Ready to Build the Future of Financial Infrastructure?
+      </h2>
+      <p class="mt-6 text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        We invite you to schedule a detailed technical presentation, review our full business plan, and discuss partnership structures that align with your investment strategy.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button onclick="showToast('Thank you for your interest. Our team will contact you within 24 hours to schedule a meeting.')" class="px-10 py-4 rounded-xl bg-gold text-dark font-bold text-base hover:bg-gold-light transition-all hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]">
+          Schedule a Meeting
+        </button>
+        <button onclick="showToast('Full proposal document will be prepared and sent under NDA agreement.')" class="px-10 py-4 rounded-xl border border-gold/30 text-gold font-semibold text-base hover:bg-gold/10 transition-all">
+          Request Full Proposal
+        </button>
+      </div>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
+        <span><i class="fas fa-envelope mr-2 text-gold/50"></i>invest@kongali1720.com</span>
+        <span><i class="fab fa-github mr-2 text-gold/50"></i>github.com/kongali1720</span>
+        <span><i class="fas fa-map-marker-alt mr-2 text-gold/50"></i>Jakarta, Indonesia</span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
-
-
-<footer class="py-12 text-center">
-
-
-<h2 class="text-4xl font-bold">
-
-KONGALI 1720
-
-</h2>
-
-
-<p class="mt-4 text-gray-400">
-
-Building The Future Financial Infrastructure
-
-</p>
-
-
-
-<p class="mt-6">
-
-GitHub:
-github.com/kongali1720
-
-</p>
-
-
-
+<footer class="relative z-10 py-12 px-6 border-t border-white/5">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <img src="https://github.com/kongali1720/kongali1720.github.io/blob/main/new-logo.png?raw=true" alt="KONGALI 1720" class="w-7 h-7 rounded-full">
+      <span class="font-display font-bold text-gold text-sm">KONGALI 1720</span>
+    </div>
+    <p class="text-gray-600 text-sm">Building The Future of Financial Infrastructure</p>
+    <p class="text-gray-700 text-xs">Confidential — For Authorized Recipients Only</p>
+  </div>
 </footer>
 
+<!-- Toast Container -->
+<div id="toast" class="toast">
+  <i class="fas fa-check-circle text-gold mr-2"></i>
+  <span id="toastMsg"></span>
+</div>
 
+<script>
+// ==========================================
+// Particle System — Gold Dust Effect
+// ==========================================
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouseX = 0, mouseY = 0;
+const PARTICLE_COUNT = 70;
 
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
+// Lacak posisi mouse untuk efek parallax
+document.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
 
+// Inisialisasi partikel
+function createParticle() {
+  return {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2 + 0.5,
+    speedY: -(Math.random() * 0.3 + 0.1),
+    speedX: (Math.random() - 0.5) * 0.15,
+    opacity: Math.random() * 0.4 + 0.1,
+    parallax: Math.random() * 0.5 + 0.5,
+    wobblePhase: Math.random() * Math.PI * 2,
+    wobbleSpeed: Math.random() * 0.02 + 0.005,
+  };
+}
+
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push(createParticle());
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.wobblePhase += p.wobbleSpeed;
+    p.x += p.speedX + Math.sin(p.wobblePhase) * 0.15 + mouseX * 0.3 * p.parallax;
+    p.y += p.speedY + mouseY * 0.1 * p.parallax;
+
+    // Bungkus posisi jika keluar layar
+    if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+    if (p.x < -10) p.x = canvas.width + 10;
+    if (p.x > canvas.width + 10) p.x = -10;
+
+    // Gambar partikel dengan glow
+    const r = Math.max(0.5, p.size);
+    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 3);
+    gradient.addColorStop(0, 'rgba(212,175,55,' + p.opacity + ')');
+    gradient.addColorStop(0.5, 'rgba(212,175,55,' + (p.opacity * 0.3) + ')');
+    gradient.addColorStop(1, 'rgba(212,175,55,0)');
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r * 3, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    // Titik inti lebih terang
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r * 0.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(245,230,163,' + (p.opacity * 1.5) + ')';
+    ctx.fill();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ==========================================
+// Loading Screen
+// ==========================================
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 800);
+});
+
+// ==========================================
+// Scroll Progress Bar
+// ==========================================
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progressBar').style.width = progress + '%';
+
+  // Navbar background saat scroll
+  const navbar = document.getElementById('navbar');
+  if (scrollTop > 80) {
+    navbar.style.background = 'rgba(6,6,9,0.9)';
+    navbar.style.backdropFilter = 'blur(20px)';
+    navbar.style.borderBottom = '1px solid rgba(212,175,55,0.08)';
+  } else {
+    navbar.style.background = 'transparent';
+    navbar.style.backdropFilter = 'none';
+    navbar.style.borderBottom = 'none';
+  }
+});
+
+// ==========================================
+// Mobile Menu
+// ==========================================
+const menuBtn = document.getElementById('menuBtn');
+const closeMenuBtn = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+
+menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// ==========================================
+// Scroll Reveal — IntersectionObserver
+// ==========================================
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ==========================================
+// Animated Counters
+// ==========================================
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.dataset.animated) {
+      entry.target.dataset.animated = 'true';
+      animateCounter(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const isDecimal = el.dataset.decimal === 'true';
+  const duration = 2000;
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Easing: ease-out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+
+    if (isDecimal) {
+      el.textContent = current.toFixed(1) + suffix;
+    } else {
+      el.textContent = Math.floor(current) + suffix;
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      el.textContent = (isDecimal ? target.toFixed(1) : target) + suffix;
+    }
+  }
+  requestAnimationFrame(update);
+}
+
+// ==========================================
+// Revenue Projection Chart (Canvas)
+// ==========================================
+const chartData = [
+  { year: '2026', revenue: 50 },
+  { year: '2027', revenue: 200 },
+  { year: '2028', revenue: 650 },
+  { year: '2029', revenue: 1200 },
+  { year: '2030', revenue: 2500 },
+  { year: '2031', revenue: 4000 },
+  { year: '2032', revenue: 5500 },
+];
+
+let chartAnimated = false;
+const chartObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !chartAnimated) {
+      chartAnimated = true;
+      drawRevenueChart(1);
+    }
+  });
+}, { threshold: 0.3 });
+
+chartObserver.observe(document.getElementById('revenueChart'));
+
+function drawRevenueChart(animProgress) {
+  const c = document.getElementById('revenueChart');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = c.getBoundingClientRect();
+  c.width = rect.width * dpr;
+  c.height = rect.height * dpr;
+  const cx = c.getContext('2d');
+  cx.scale(dpr, dpr);
+
+  const w = rect.width;
+  const h = rect.height;
+  const pad = { top: 30, right: 30, bottom: 50, left: 70 };
+  const chartW = w - pad.left - pad.right;
+  const chartH = h - pad.top - pad.bottom;
+  const maxVal = 6000;
+
+  cx.clearRect(0, 0, w, h);
+
+  // Grid lines horizontal
+  const gridSteps = [0, 1000, 2000, 3000, 4000, 5000, 6000];
+  cx.strokeStyle = 'rgba(255,255,255,0.05)';
+  cx.lineWidth = 1;
+  cx.font = '11px DM Sans';
+  cx.fillStyle = 'rgba(255,255,255,0.3)';
+  cx.textAlign = 'right';
+  gridSteps.forEach(val => {
+    const y = pad.top + chartH - (val / maxVal) * chartH;
+    cx.beginPath();
+    cx.moveTo(pad.left, y);
+    cx.lineTo(w - pad.right, y);
+    cx.stroke();
+    cx.fillText(val >= 1000 ? (val / 1000) + 'T' : val, pad.left - 10, y + 4);
+  });
+
+  // Hitung posisi data
+  const points = chartData.map((d, i) => ({
+    x: pad.left + (i / (chartData.length - 1)) * chartW,
+    y: pad.top + chartH - (Math.min(d.revenue, maxVal) / maxVal) * chartH * animProgress,
+    data: d
+  }));
+
+  // Area fill (gradient)
+  const areaGrad = cx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
+  areaGrad.addColorStop(0, 'rgba(212,175,55,0.25)');
+  areaGrad.addColorStop(0.5, 'rgba(212,175,55,0.08)');
+  areaGrad.addColorStop(1, 'rgba(212,175,55,0)');
+
+  cx.beginPath();
+  cx.moveTo(points[0].x, pad.top + chartH);
+  // Kurva smooth menggunakan quadratic bezier
+  points.forEach((p, i) => {
+    if (i === 0) {
+      cx.lineTo(p.x, p.y);
+    } else {
+      const prev = points[i - 1];
+      const cpx = (prev.x + p.x) / 2;
+      cx.bezierCurveTo(cpx, prev.y, cpx, p.y, p.x, p.y);
+    }
+  });
+  cx.lineTo(points[points.length - 1].x, pad.top + chartH);
+  cx.closePath();
+  cx.fillStyle = areaGrad;
+  cx.fill();
+
+  // Garis data
+  cx.beginPath();
+  points.forEach((p, i) => {
+    if (i === 0) {
+      cx.moveTo(p.x, p.y);
+    } else {
+      const prev = points[i - 1];
+      const cpx = (prev.x + p.x) / 2;
+      cx.bezierCurveTo(cpx, prev.y, cpx, p.y, p.x, p.y);
+    }
+  });
+  cx.strokeStyle = '#D4AF37';
+  cx.lineWidth = 2.5;
+  cx.stroke();
+
+  // Titik data + label
+  points.forEach(p => {
+    // Glow
+    const glow = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 12);
+    glow.addColorStop(0, 'rgba(212,175,55,0.4)');
+    glow.addColorStop(1, 'rgba(212,175,55,0)');
+    cx.beginPath();
+    cx.arc(p.x, p.y, 12, 0, Math.PI * 2);
+    cx.fillStyle = glow;
+    cx.fill();
+
+    // Titik
+    cx.beginPath();
+    cx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    cx.fillStyle = '#D4AF37';
+    cx.fill();
+    cx.beginPath();
+    cx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+    cx.fillStyle = '#060609';
+    cx.fill();
+
+    // Label nilai di atas titik
+    cx.font = 'bold 11px DM Sans';
+    cx.fillStyle = '#F5E6A3';
+    cx.textAlign = 'center';
+    const label = p.data.revenue >= 1000 ? (p.data.revenue / 1000) + 'T' : p.data.revenue + 'B';
+    cx.fillText('Rp ' + label, p.x, p.y - 16);
+  });
+
+  // Label tahun di sumbu X
+  cx.font = '12px DM Sans';
+  cx.fillStyle = 'rgba(255,255,255,0.5)';
+  cx.textAlign = 'center';
+  points.forEach(p => {
+    cx.fillText(p.data.year, p.x, h - pad.bottom + 25);
+  });
+
+  // Label sumbu Y
+  cx.save();
+  cx.translate(15, pad.top + chartH / 2);
+  cx.rotate(-Math.PI / 2);
+  cx.font = '11px DM Sans';
+  cx.fillStyle = 'rgba(255,255,255,0.25)';
+  cx.textAlign = 'center';
+  cx.fillText('Revenue (Billion IDR)', 0, 0);
+  cx.restore();
+}
+
+// Resize chart saat ukuran berubah
+window.addEventListener('resize', () => {
+  if (chartAnimated) drawRevenueChart(1);
+});
+
+// ==========================================
+// Donut Chart — Alokasi Dana
+// ==========================================
+const donutData = [
+  { label: 'Infrastructure', value: 35, color: '#D4AF37' },
+  { label: 'Technology Dev', value: 25, color: '#C9A84C' },
+  { label: 'Security', value: 20, color: '#8B7325' },
+  { label: 'Operations', value: 15, color: '#A08930' },
+  { label: 'Working Capital', value: 5, color: '#6B5A1E' },
+];
+
+let donutAnimated = false;
+const donutObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !donutAnimated) {
+      donutAnimated = true;
+      animateDonut();
+    }
+  });
+}, { threshold: 0.5 });
+
+donutObserver.observe(document.getElementById('donutChart'));
+
+function animateDonut() {
+  const c = document.getElementById('donutChart');
+  const dpr = window.devicePixelRatio || 1;
+  const size = 280;
+  c.width = size * dpr;
+  c.height = size * dpr;
+  c.style.width = size + 'px';
+  c.style.height = size + 'px';
+  const cx = c.getContext('2d');
+  cx.scale(dpr, dpr);
+
+  const centerX = size / 2;
+  const centerY = size / 2;
+  const outerR = Math.max(1, size / 2 - 10);
+  const innerR = Math.max(1, outerR * 0.62);
+  const total = donutData.reduce((s, d) => s + d.value, 0);
+  const duration = 1500;
+  const start = performance.now();
+
+  function draw(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const totalAngle = Math.PI * 2 * eased;
+
+    cx.clearRect(0, 0, size, size);
+
+    let currentAngle = -Math.PI / 2;
+    donutData.forEach(d => {
+      const sliceAngle = (d.value / total) * totalAngle;
+      const endAngle = currentAngle + sliceAngle;
+
+      cx.beginPath();
+      cx.arc(centerX, centerY, outerR, currentAngle, endAngle);
+      cx.arc(centerX, centerY, innerR, endAngle, currentAngle, true);
+      cx.closePath();
+      cx.fillStyle = d.color;
+      cx.fill();
+
+      // Garis pemisah antar segmen
+      cx.strokeStyle = '#060609';
+      cx.lineWidth = 2;
+      cx.stroke();
+
+      currentAngle = endAngle;
+    });
+
+    // Teks tengah
+    cx.font = 'bold 14px DM Sans';
+    cx.fillStyle = '#E8E6E0';
+    cx.textAlign = 'center';
+    cx.textBaseline = 'middle';
+    cx.fillText('Fund', centerX, centerY - 10);
+    cx.fillText('Allocation', centerX, centerY + 10);
+
+    if (progress < 1) {
+      requestAnimationFrame(draw);
+    }
+  }
+  requestAnimationFrame(draw);
+}
+
+// ==========================================
+// Toast Notification
+// ==========================================
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ==========================================
+// Nav Active State saat Scroll
+// ==========================================
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+
+sections.forEach(s => navObserver.observe(s));
+</script>
 </body>
-
 </html>
