@@ -8,6 +8,14 @@
 <img src="https://img.shields.io/badge/Domain-FinTech%20Infrastructure-success?style=for-the-badge&logo=bank"/>
 <img src="https://img.shields.io/badge/Standard-ISO%2020022-orange?style=for-the-badge&logo=iso"/>
 <img src="https://img.shields.io/badge/Protocol-SWIFT%20MT103-red?style=for-the-badge&logo=swift"/>
+<img src="https://img.shields.io/badge/License-Apache%202.0-green?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js"/>
+<img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js"/>
+<img src="https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript"/>
+<img src="https://img.shields.io/badge/TailwindCSS-4-38B2AC?style=for-the-badge&logo=tailwindcss"/>
+<img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma"/>
+<img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker"/>
+<img src="https://img.shields.io/badge/Kubernetes-Ready-326CE5?style=for-the-badge&logo=kubernetes"/>
 
 <br>
 
@@ -20,9 +28,19 @@
 
 ---
 
-# 🏦 SWIFT Bridge Frontend
+<h1 align="center">
+🏦 SWIFT Bridge Frontend
+</h1>
 
-> Enterprise Banking Dashboard built with **Next.js 15**, **TypeScript**, and a modern enterprise frontend architecture inspired by Core Banking Systems.
+<p align="center">
+<strong>
+Enterprise Banking Dashboard built with <b>Next.js 15</b>, <b>TypeScript</b>, and a modern enterprise frontend architecture inspired by enterprise Core Banking Systems.
+</strong>
+</p>
+
+<p align="center">
+Modern • Secure • Scalable • Banking Grade • ISO 20022 Ready
+</p>
 
 ---
 
